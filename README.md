@@ -1,4 +1,4 @@
 # MAD Practices | UOC
-*Mobile Application Development Practices :mobile_phone:*
+*Mobile Application Development Practices :iphone:*
 
 :construction:
