@@ -1,4 +1,10 @@
 # MAD Practices | UOC
 *Mobile Application Development Practices :iphone:*
 
-:construction:
+## CATs
+
+- [CAT 1](./CAT%201)
+
+## PRs
+
+🚧
