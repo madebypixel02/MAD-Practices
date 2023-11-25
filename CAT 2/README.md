@@ -1,12 +1,12 @@
 # CAT 1
 Alejandro Pérez Bueno
-Nov 07, 2023
+Nov 25, 2023
 
-- [1. Login Screen](#1-login-screen)
-  - [a. `onViewCreated`](#a-onviewcreated)
-  - [b. `setOnClickListener`](#b-setonclicklistener)
-  - [c. `DataSourceHardcode`](#c-datasourcehardcode)
-- [2. List of Seminars](#2-list-of-seminars)
+-   [1. Login Screen](#login-screen)
+    -   [a. `onViewCreated`](#a.-onviewcreated)
+    -   [b. `setOnClickListener`](#b.-setonclicklistener)
+    -   [c. `DataSourceHardcode`](#c.-datasourcehardcode)
+-   [2. List of Seminars](#list-of-seminars)
 
 
 
@@ -43,11 +43,8 @@ user_harcoded = if (username == "user1@uoc.com") {
 
 ## 2. List of Seminars
 
-> [!NOTE]
+> **Note**
 >
 > Answered in Project Folder
 
-<figure>
-<img src="./img/dog-seminar.png" alt="Dog Seminar Result" />
-<figcaption aria-hidden="true">Dog Seminar Result</figcaption>
-</figure>
+![Dog Seminar Result](./img/dog-seminar.png)
