@@ -1,0 +1,301 @@
+---
+title: "CAT 3"
+author: Alejandro Pérez Bueno
+date: today
+date-format: "MMM DD, YYYY"
+toc: true
+toc-title: "Table of Contents"
+linkcolor: blue
+documentclass: report
+link-citations: true
+link-bibliography: true
+number-sections: true
+format:
+  gfm: default
+  pdf:
+    linestretch: 1.25
+    geometry:
+      - top=30mm
+      - left=20mm
+      - heightrounded
+    include-in-header:
+      text: |
+        \usepackage{fancyhdr}
+          \pagestyle{fancy}
+          \fancyhead[C]{UOC}
+          \fancyhead[R]{aperez-b@uoc.edu}
+          \fancyfoot{}
+          \fancyfoot[R]{\thepage}
+---
+
+{{< pagebreak >}}
+
+## Create the local database
+
+### `CREATE SQL`
+
+The code to be added is the following:
+
+```kotlin
+db.execSQL(SQL_CREATE_user)
+db.execSQL(SQL_CREATE_seminar)
+db.execSQL(SQL_CREATE_item)
+db.execSQL(SQL_CREATE_request)
+db.execSQL(SQL_CREATE_user_seminar)
+```
+
+::: {.callout-note}
+See [`DbHelper.kt`](./PR3/app/src/main/java/com/uoc/pr2/data/localstorage/DbHelper.kt) for more details
+:::
+
+### `command_list`
+
+```kotlin
+for (command in command_list) {
+    db.execSQL(command)
+}
+```
+
+::: {.callout-note}
+See [`DbHelper.kt`](./PR3/app/src/main/java/com/uoc/pr2/data/localstorage/DbHelper.kt) for more details
+:::
+
+## Local filesystem
+
+Here are the comments I added to the code:
+
+```kotlin
+// Create the /media directory in the app's internal storage
+// Create the /media/seminar directory in the app's internal storage
+// Move three logos to the /media/seminar directory we just created
+// Create the /media/item directory in the app's internal storage
+// Move three dog images to the /media/item directory we just created
+// Move three medicine images to the /media/item directory we just created
+// Move three AI images to the /media/item directory we just created
+// Create the /media/request directory in the app's internal storage
+```
+
+::: {.callout-note}
+See [`DbHelper.kt`](./PR3/app/src/main/java/com/uoc/pr2/data/localstorage/DbHelper.kt) for more details
+:::
+
+## Implement the class DataSourceLocal
+
+### `str_sql`
+
+::: {.callout-note}
+See [`DataSourceLocal.kt`](./PR3/app/src/main/java/com/uoc/pr2/data/DataSourceLocal.kt) for more details
+:::
+
+### `selectSeminarsUser`
+
+Here is the code to be added to the code:
+
+```kotlin
+val cursor = db.rawQuery(str_sql, null)
+while (cursor.moveToNext()) {
+    userSeminarList.add(Seminary(cursor.getInt(cursor.getColumnIndex("sem_id")),
+        cursor.getString(cursor.getColumnIndex("sem_name")),
+        cursor.getInt(cursor.getColumnIndex("sem_duration")),
+        context.filesDir.path + "/media/seminar/" + 
+                cursor.getInt(cursor.getColumnIndex("sem_id")) + ".jpg"))
+cursor.close()
+```
+
+The code launches the query specified in `str_sql` and then iterates over every result to create a seminary from each result.
+
+::: {.callout-note}
+See [`DataSourceLocal.kt`](./PR3/app/src/main/java/com/uoc/pr2/data/DataSourceLocal.kt) for more details
+:::
+
+### `selectItems` part 1
+
+Here are the lines to be added to the code:
+
+```kotlin
+while (cursor.moveToNext()) {
+    seminarItemList.add(Item(ItemType.BASIC,
+        cursor.getInt(cursor.getColumnIndex("item_id")),
+        cursor.getString(cursor.getColumnIndex("item_title")),
+        cursor.getString(cursor.getColumnIndex("item_description"))))
+}
+cursor.close()
+```
+
+::: {.callout-note}
+See [`DataSourceLocal.kt`](./PR3/app/src/main/java/com/uoc/pr2/data/DataSourceLocal.kt) for more details
+:::
+
+###  `selectItems` part 2
+
+Here are the lines to be added to the code:
+
+```kotlin
+val cursor = db.rawQuery(str_sql, null)
+var UserRequestList = mutableListOf<UserRequest>()
+while (cursor.moveToNext()) {
+    UserRequestList.add(UserRequest(cursor.getLong(cursor.getColumnIndex("request_id")),
+        cursor.getString(cursor.getColumnIndex("request_description"))))
+}
+cursor.close()
+```
+
+::: {.callout-note}
+See [`DataSourceLocal.kt`](./PR3/app/src/main/java/com/uoc/pr2/data/DataSourceLocal.kt) for more details
+:::
+
+## Use the class DataSourceLocal
+
+Here is how the code looks:
+
+```kotlin
+val Default = DataSourceType.LocalStorage
+```
+
+::: {.callout-note}
+See [`DataSourceLocal.kt`](./PR3/app/src/main/java/com/uoc/pr2/data/DataSourceLocal.kt) for more details
+:::
+
+## Read files from the filesystem
+
+### `SeminarsAdapter`
+
+Here are the lines to be added to the code:
+
+```kotlin
+val imagePath = item.image_path
+val bitmap = BitmapFactory.decodeFile(imagePath)
+itemImageView.setImageBitmap(bitmap)
+```
+
+In this code, we use the `decodeFile()` to load the bitmap from the filesystem using `imagePath` value as a parameter. We then assign the loaded bitmap to `itemImageView` using `setImageBitmap()`.
+
+::: {.callout-note}
+See [`SeminarsAdapter.kt`](./PR3/app/src/main/java/com/uoc/pr2/ui/listSeminars/SeminarsAdapter.kt) for more details
+:::
+
+### `ItemsAdapter`
+
+Here are the lines to be added to the code:
+
+```kotlin
+val imagePath = item.image_path
+val bitmap = BitmapFactory.decodeFile(imagePath)
+itemImageView?.setImageBitmap(bitmap)
+```
+
+::: {.callout-note}
+See [`ItemsAdapter.kt`](./PR3/app/src/main/java/com/uoc/pr2/ui/list/ItemsAdapter.kt) for more details
+:::
+
+### `DetailFragment`
+
+Here are the lines to be added to the code:
+
+```kotlin
+val imagePath = item?.image_path  
+val bitmap = BitmapFactory.decodeFile(imagePath)  
+v2.setImageBitmap(bitmap)
+```
+
+::: {.callout-note}
+See [`ItemsAdapter.kt`](./PR3/app/src/main/java/com/uoc/pr2/ui/list/ItemsAdapter.kt) for more details
+:::
+
+## Create an activity AddRequest
+
+### Activity Creation
+
+::: {.callout-note}
+See @fig-addrequest to verify the parameters used in the creation of this activity
+:::
+
+### Activity Design
+
+Here is how the layout file looks:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>  
+<androidx.constraintlayout.widget.ConstraintLayout  
+    xmlns:android="http://schemas.android.com/apk/res/android"  
+    xmlns:app="http://schemas.android.com/apk/res-auto"  
+    xmlns:tools="http://schemas.android.com/tools"  
+    android:layout_width="match_parent"  
+    android:layout_height="match_parent"  
+    android:background="@color/gray">  
+  
+    <LinearLayout  
+        android:layout_width="match_parent"  
+        android:layout_height="match_parent"  
+        android:orientation="vertical"  
+        android:padding="16dp"  
+        android:background="@drawable/purple_border">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:text="Title" />
+
+        <EditText
+            android:id="@+id/editTitle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:padding="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:text="Description" />
+
+        <EditText
+            android:id="@+id/editDescription"
+            android:layout_width="match_parent"
+            android:layout_height="460dp"
+            android:background="@color/white"
+            android:gravity="top|left"
+            android:inputType="textMultiLine"
+            android:padding="8dp" />
+
+        <Button
+            android:id="@+id/btnSelectImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#673AB7"
+            android:gravity="center_horizontal"
+            android:text="SELECT IMAGE"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:text="Image" />
+  
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+::: {.callout-note}
+See [`activity_add_request.xml`](./PR3/app/src/main/res/layout/activity_add_request.xml) for more details
+
+See @fig-addrequest-ui to see the result
+:::
+
+## Testing
+
+🚧
+
+## Annexes
+
+![Creation of `AddRequest` empty views activity](./img/addrequest.png){#fig-addrequest width=70%}
+
+![Creating the `AddReqeust` layout](./img/addrequest-ui.png){#fig-addrequest-ui width=70%}

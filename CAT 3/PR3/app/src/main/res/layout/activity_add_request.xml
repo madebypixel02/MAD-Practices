@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<androidx.constraintlayout.widget.ConstraintLayout  
+    xmlns:android="http://schemas.android.com/apk/res/android"  
+    xmlns:app="http://schemas.android.com/apk/res-auto"  
+    xmlns:tools="http://schemas.android.com/tools"  
+    android:layout_width="match_parent"  
+    android:layout_height="match_parent"  
+    android:background="@color/gray">  
+  
+    <LinearLayout  
+        android:layout_width="match_parent"  
+        android:layout_height="match_parent"  
+        android:orientation="vertical"  
+        android:padding="16dp"  
+        android:background="@drawable/purple_border">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:text="Title" />
+
+        <EditText
+            android:id="@+id/editTitle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:padding="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:text="Description" />
+
+        <EditText
+            android:id="@+id/editDescription"
+            android:layout_width="match_parent"
+            android:layout_height="460dp"
+            android:background="@color/white"
+            android:gravity="top|left"
+            android:inputType="textMultiLine"
+            android:padding="8dp" />
+
+        <Button
+            android:id="@+id/btnSelectImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#673AB7"
+            android:gravity="center_horizontal"
+            android:text="SELECT IMAGE"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:text="Image" />
+  
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
