@@ -1,0 +1,261 @@
+---
+title: "CAT 4"
+author: Alejandro Pérez Bueno
+date: today
+date-format: "MMM DD, YYYY"
+toc: true
+toc-title: "Table of Contents"
+linkcolor: blue
+documentclass: report
+link-citations: true
+link-bibliography: true
+format:
+  gfm: default
+  pdf:
+    linestretch: 1.25
+    geometry:
+      - top=30mm
+      - left=20mm
+      - heightrounded
+    include-in-header:
+      text: |
+        \usepackage{fancyhdr}
+          \pagestyle{fancy}
+          \fancyhead[C]{UOC}
+          \fancyhead[R]{aperez-b@uoc.edu}
+          \fancyfoot{}
+          \fancyfoot[R]{\thepage}
+---
+
+{{< pagebreak >}}
+
+## Firebase preparation
+
+### Add project
+
+We created a new project in [firebase.google.com](https://firebase.google.com) with Google Analytics on (see @fig-seminardata-created).
+
+We then created a new database in test mode located in West Europe (see @fig-database-created).
+
+### `user` collection
+
+We created a new `user` collection with the following values from this *SQL* command:
+
+```sql
+INSERT INTO 'main'.'user'
+  ('user_id', 'user_username', 'user_pwd', 'user_display_name')
+  VALUES ('1', 'user1@uoc.com', '123456', 'Jane Doe')
+
+INSERT INTO 'main'.'user'
+  ('user_id', 'user_username', 'user_pwd', 'user_display_name')
+  VALUES ('2', 'user2@uoc.com', '123456', 'John Doe')
+```
+
+See @fig-user-collection for an example of the setup screen corresponding to the first *SQL* command.
+
+### `seminar` collection
+
+Now we will insert the three `seminar` entries from the `dbHelper` class:
+
+```sql
+INSERT INTO 'main'.'seminar'
+  ('sem_id', 'sem_name', 'sem_duration') VALUES ('1', 'Dogs Agility Seminary','60')
+
+INSERT INTO 'main'.'seminar'
+  ('sem_id', 'sem_name', 'sem_duration') VALUES ('2', 'Medicine Seminary','40')
+
+INSERT INTO 'main'.'seminar'
+('sem_id', 'sem_name', 'sem_duration') VALUES ('3', 'AI Seminary','30')"
+```
+
+See @fig-seminar-collection for an example of the setup screen corresponding to the first *SQL* command.
+
+### `user_seminar` collection
+
+Yet again, we will insert four `user_seminar` entries from the `dbHelper` class:
+
+```sql
+INSERT INTO 'main'.'user_seminar'
+  ('usersem_user_id', 'usersem_seminar_id') VALUES ('1', '1')
+
+INSERT INTO 'main'.'user_seminar'
+  ('usersem_user_id', 'usersem_seminar_id') VALUES ('1', '3')
+
+INSERT INTO 'main'.'user_seminar'
+  ('usersem_user_id', 'usersem_seminar_id') VALUES ('2', '2')
+
+INSERT INTO 'main'.'user_seminar'
+  ('usersem_user_id', 'usersem_seminar_id') VALUES ('2', '3')
+```
+
+See @fig-user-seminar-collection for an example of the setup screen corresponding to the first *SQL* command.
+
+### `Add app` button
+
+::: {.callout-note}
+Answered in project folder (see [`build.gradle`](./PR4/app/build.gradle)).
+:::
+
+## Back-end programming
+
+::: {.callout-tip}
+# Info
+
+This is a theoretical question
+:::
+
+### Where is the data located, compared to previous CATs? Has data access become faster or slower?
+
+In this CAT, data is stored on the Firestore cloud database, whereas in CAT 3 it was stored locally. Data access is slower now, because there can be all kinds of delays in the network or in the cloud service, whereas storing the information locally is typically faster.
+
+### When method `loginAsync` ends, does it know at that time whether the login attempt is correct or not?
+
+The `loginAsync` method does not know at that time whether the login attempt is correct or not, the result of the login is determined asynchronously and passed to the listener when it becomes available.
+
+### What is the role of listener that is passed as parameter to the `loginAsync` method?
+
+The listener receives a Result object containing either a User object if the login was successful or an error message if the login failed.
+
+## Loading a user's seminars
+
+### `usersem_seminar_id`
+
+::: {.callout-note}
+Answered in project folder (see [`DataSourceFirebase.kt`](./PR4/app/src/main/java/com/uoc/pr2/data/DataSourceFirebase.kt)).
+:::
+
+### create Seminary class instances
+
+::: {.callout-note}
+Answered in project folder (see [`DataSourceFirebase.kt`](./PR4/app/src/main/java/com/uoc/pr2/data/DataSourceFirebase.kt)).
+:::
+
+## Saving images in Storage
+
+### Create the `item` collection with Auto-Id
+
+Yet again, we will insert `item` entries from the `dbHelper` class. Here is an example of one of them:
+
+```sql
+INSERT INTO 'main'.'item'
+  ('item_id', 'item_type', 'item_title', 'item_description', 'item_sem_id', 'item_imageref')
+  VALUES ('1', '2', 'Obstacles', 'It consists of a an exposition about the obstacles available in
+  Agility competitions and how to teach the dog to accomplish the tests.', '1', '')
+```
+
+See @fig-item-collection for an example of the setup screen corresponding to the first *SQL* command.
+
+Note that in the screenshot the `image_path` is filled, it should be empty.
+
+### Add the image file
+
+See @fig-dog01, @fig-rules and @fig-new-ref to see the uploaded images and the corresponding rules enabled.
+
+### Populate the `selectItemsAsync` method
+
+::: {.callout-note}
+Answered in project folder (see [`DataSourceFirebase.kt`](./PR4/app/src/main/java/com/uoc/pr2/data/DataSourceFirebase.kt)).
+:::
+
+### Add the code to upload the image
+
+::: {.callout-note}
+Answered in project folder (see [`ItemsAdapter.kt`](./PR4/app/src/main/java/com/uoc/pr2/ui/list/ItemsAdapter.kt)).
+:::
+
+## Modify the detail fragment
+
+::: {.callout-note}
+Answered in project folder (see [`DetailFragment.kt`](./PR4/app/src/main/java/com/uoc/pr2/ui/detail/DetailFragment.kt)).
+:::
+
+## Display a user's requests
+
+### Add to Firestone the request collection with Auto-ID
+
+Once again, we will insert `request` entries from the `dbHelper` class. Here is an example of one of them:
+
+```sql
+INSERT INTO 'main'.'request'
+  ('request_id', 'request_type', 'request_title', 'request_description', 'request_user_id')
+  VALUES ('1', '1', 'Location', 'Where is the seminar going to be placed?', '1')
+```
+
+See @fig-request-collection for an example of the setup screen corresponding to the first *SQL* command.
+
+### Load the list of user requests
+
+::: {.callout-note}
+Answered in project folder (see [`DataSourceFirebase.kt`](./PR4/app/src/main/java/com/uoc/pr2/data/DataSourceFirebase.kt)).
+:::
+
+## Inserting new requests
+
+### Implement the `getNewRequestId` function
+
+::: {.callout-note}
+Answered in project folder (see [`DataSourceFirebase.kt`](./PR4/app/src/main/java/com/uoc/pr2/data/DataSourceFirebase.kt)).
+:::
+
+### In what order should we perform these operations?
+
+- Insert the image into Storage
+- Get a new `request_id`
+- Insert an item into the request collection from Firestore
+
+::: {.callout-tip}
+# Info
+
+This is a theoretical question
+:::
+
+The correct order will be:
+
+1. Get a new `request_id`
+1. Insert the image into the Firebase Storage
+1. Insert an item into the request collection from Firestore
+
+### Insert the new request into the request collection
+
+(WIP)
+
+### Create an item and add it to the inmemory model
+
+(WIP)
+
+## Annexes {.unnumbered}
+
+::: {#fig-ex1 layout-ncol=2}
+
+![`SeminarData` created](./img/seminardata-created.png){#fig-seminardata-created}
+
+![Firestore database created](./img/database-created.png){#fig-database-created}
+
+SeminarData Setup
+:::
+
+::: {#fig-collection-setup layout-ncol=3}
+
+![`user` collection](./img/user-collection.png){#fig-user-collection}
+
+![`seminar` collection](./img/seminar-collection.png){#fig-seminar-collection}
+
+![`user_seminar` collection](./img/user-seminar-collection.png){#fig-user-seminar-collection}
+
+![`item` collection](./img/item-collection.png){#fig-item-collection}
+
+![`request` collection](./img/request-collection.png){#fig-request-collection}
+
+Collections setup
+:::
+
+::: {#fig-images layout-ncol=2}
+
+![`dog01.jpg`](./img/dog01-storage.png){#fig-dog01}
+
+![rules](./img/rules.png){#fig-rules}
+
+![New ref to `dog01.jpg`](./img/new-ref.png){#fig-new-ref}
+
+Firebase Storage
+:::
