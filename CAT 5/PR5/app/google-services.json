@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "252456858543",
+    "project_id": "seminardata-862ae",
+    "storage_bucket": "seminardata-862ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:252456858543:android:6fe57a2bd5c7d4753b355a",
+        "android_client_info": {
+          "package_name": "com.uoc.fragments1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmX8pHSckkBtuFXHVFs4FMi1iAcDY2QD4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

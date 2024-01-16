@@ -1,0 +1,101 @@
+---
+title: "CAT 5"
+author: Alejandro Pérez Bueno
+date: today
+date-format: "MMM DD, YYYY"
+toc: true
+toc-title: "Table of Contents"
+linkcolor: blue
+documentclass: report
+link-citations: true
+link-bibliography: true
+format:
+  gfm: default
+  pdf:
+    linestretch: 1.25
+    geometry:
+      - top=30mm
+      - left=20mm
+      - heightrounded
+    include-in-header:
+      text: |
+        \usepackage{fancyhdr}
+          \pagestyle{fancy}
+          \fancyhead[C]{UOC}
+          \fancyhead[R]{aperez-b@uoc.edu}
+          \fancyfoot{}
+          \fancyfoot[C]{\thepage}
+---
+
+{{< pagebreak >}}
+
+## Exercise 1
+
+In this exercise we had to enable Firebase Cloud Messaging and integrate it on our app. To do this we had to do the following:
+
+1. Obtain the token.
+1. Create the notification.
+1. Send it to the phone using the obtained token.
+1. Receive it on the device while the app is in the background.
+
+See @fig-ex1 to see how the notification appears on the end device
+
+::: {.callout-tip}
+For this CAT I used a real phone connected through *ADB*, as it was more convenient than using an Android VM.
+:::
+
+::: {.callout-note}
+Answered in Project Folder (see [`MainActivity.kt`](./PR5/app/src/main/java/com/uoc/pr2/MainActivity.kt)).
+:::
+
+## Exercise 2
+
+In the second exercise we had to extend the previous integration and also load an alert upon clicking the notification.
+
+See @fig-ex2 for details on how the notification arrives, and how the alert looks upon clicking on the notification.
+
+::: {.callout-note}
+Answered in Project Folder (see [`MainActivity.kt`](./PR5/app/src/main/java/com/uoc/pr2/MainActivity.kt)).
+:::
+
+## Exercise 3
+
+For this one, we had to override the default `onMessageReceived` function to implement a new alert, this time it will receive remote notifications when the app is open, but will display them as an alert instead of as a notification.
+
+Check @fig-ex3 to see an alert in action.
+
+::: {.callout-note}
+Answered in Project Folder (see [`MainActivity.kt`](./PR5/app/src/main/java/com/uoc/pr2/MainActivity.kt) and [`MyFirebaseMessagingService.kt`](./PR5/app/src/main/java/com/uoc/pr2/MyFirebaseMessagingService.kt)).
+:::
+
+## Exercise 4
+
+The last exercise implements basic geolocation support in our app. To implement it, we followed the following logic:
+
+1. Check if the location permission has been granted, if not request the user to grant it.
+1. Attempt to determine a location using on Google Play Services.
+1. Once a location is found, a toast message appears with the format "`latitude, longitude`" and a pop-up (also called heads-up) notification appears with the text "`Start Track`".
+
+Check @fig-ex4 for more details.
+
+::: {.callout-note}
+Answered in Project Folder (see [`MainActivity.kt`](./PR5/app/src/main/java/com/uoc/pr2/MainActivity.kt)).
+:::
+
+{{< pagebreak >}}
+## Annexes {.unnumbered}
+
+![Simple remote notification with *FCM*](./img/ex01-test-notif.jpg){#fig-ex1 width=30%}
+
+::: {#fig-ex2 layout-ncol=2}
+
+![Simple remote notification with *FCM*](./img/ex02-text-notif.jpg){#fig-ex2-1}
+
+![Simple alert with *FCM*](./img/ex02-text-alert.jpg){#fig-ex2-2}
+
+Test alert upon opening notification
+:::
+
+![Alert dialog from remote notification](./img/ex03-text-notif.jpg){#fig-ex3 width=30%}
+
+![Location established message in pop-up notification and toast message](./img/ex04-track-notif-toast.jpg){#fig-ex4 width=40%}
